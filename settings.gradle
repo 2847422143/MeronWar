@@ -1,0 +1,23 @@
+pluginManagement {
+    ext.kotlin_version = "1.5.10"
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://raw.githubusercontent.com/martinloren/AabResGuard/mvn-repo' }
+    }
+
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://raw.githubusercontent.com/martinloren/AabResGuard/mvn-repo' }
+    }
+}
+rootProject.name = "MeronWar"
+include ':app'

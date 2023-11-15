@@ -1,0 +1,249 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+    id 'android-junk-code'
+    id 'xml-class-guard'
+    id 'com.bytedance.android.aabResGuard'
+    id 'stringfog'
+}
+aabResGuard {
+    mappingFile = file("mapping.txt").toPath() // 用于增量混淆的 mapping 文件
+    whiteList = [ // 白名单规则
+                  "*.R.raw.*",
+                  "*.R.string.*",
+                  "*.R.drawable.icon",
+                  "*.R.string.com.crashlytics.android.build_id",
+                  "*.R.string.google_app_id",
+                  //谷歌服务
+                  "*.R.string.default_web_client_id",
+                  "*.R.string.firebase_database_url",
+                  "*.R.string.gcm_defaultSenderId",
+                  "*.R.string.google_api_key",
+                  "*.R.string.google_app_id",
+                  "*.R.string.google_crash_reporting_api_key",
+                  "*.R.string.google_storage_bucket",
+                  "*.R.string.project_id",
+                  "*.R.string.com.crashlytics.android.build_id",
+                  //所有涉及到 getResources().getIdentifier 对应的资源ID
+                  "*.R.array.a1",
+                  "*.R.string.s1",
+                  "*.R.mipmap.m1",
+                  "*.R.dimen.d1",
+                  "*.R.integer.int1",
+                  // for fabric
+                  "*.R.string.com.crashlytics.*",
+                  //Firebase Crashlytics
+                  "*.R.bool.com.crashlytics.useFirebaseAppId",
+                  "*.R.string.com.crashlytics.useFirebaseAppId",
+                  "*.R.string.google_app_id",
+                  "*.R.bool.com.crashlytics.CollectDeviceIdentifiers",
+                  "*.R.string.com.crashlytics.CollectDeviceIdentifiers",
+                  "*.R.bool.com.crashlytics.CollectUserIdentifiers",
+                  "*.R.string.com.crashlytics.CollectUserIdentifiers",
+                  "*.R.string.com.crashlytics.ApiEndpoint",
+                  "*.R.string.io.fabric.android.build_id",
+                  "*.R.string.com.crashlytics.android.build_id",
+                  "*.R.bool.com.crashlytics.RequireBuildId",
+                  "*.R.string.com.crashlytics.RequireBuildId",
+                  "*.R.bool.com.crashlytics.CollectCustomLogs",
+                  "*.R.string.com.crashlytics.CollectCustomLogs",
+                  "*.R.bool.com.crashlytics.Trace",
+                  "*.R.string.com.crashlytics.Trace",
+                  "*.R.string.com.crashlytics.CollectCustomKeys"
+    ]
+    obfuscatedBundleFileName = "app.aab" // 混淆后的文件名称，必须以 `.aab` 结尾
+    mergeDuplicatedRes = true // 是否允许去除重复资源
+    enableFilterFiles = true // 是否允许过滤文件
+    filterList = [ // 文件过滤规则
+                   "*/arm64-v8a/*",
+                   "META-INF/*"
+    ]
+    enableFilterStrings = false // 过滤文案
+    unusedStringPath = file("unused.txt").toPath() // 过滤文案列表路径 默认在mapping同目录查找
+    languageWhiteList = ["en", "zh"] // 保留en,en-xx,zh,zh-xx等语言，其余均删除
+}
+
+//以下均为非必须
+xmlClassGuard {
+    /*
+     * 是否查找约束布局的constraint_referenced_ids属性的值，并添加到AabResGuard的白名单中，
+     * 是的话，要求你在XmlClassGuard前依赖AabResGuard插件，默认false
+     */
+    findAabConstraintReferencedIds = false
+
+    /*
+     * 是否查找约束布局的constraint_referenced_ids属性的值，并添加到AndResGuard的白名单中，
+     * 是的话，要求你在XmlClassGuard前依赖AndResGuard插件，默认false
+     */
+    findAndConstraintReferencedIds = false
+    //用于增量混淆的 mapping 文件
+    mappingFile = file("proguardxml.txt")
+    //更改manifest文件的package属性，即包名
+    packageChange = ["com.pbicv.ddpx": "m.a"]
+    //移动目录
+    moveDir = ["com.pbicv.ddpx": "a.m"]
+}
+
+stringfog {
+    // 必要：加解密库的实现类路径，需和上面配置的加解密算法库一致。
+    implementation 'com.github.megatronking.stringfog.xor.StringFogImpl'
+    // 可选：加密开关，默认开启。
+    enable true
+    // 可选：指定需加密的代码包路径，可配置多个，未指定将默认全部加密。
+//    fogPackages = ['com.xxx.xxx']
+    // 可选（3.0版本新增）：指定密钥生成器，默认使用长度8的随机密钥（每个字符串均有不同随机密钥）,
+    // 也可以指定一个固定的密钥：HardCodeKeyGenerator("This is a key")
+//    kg new RandomKeyGenerator()
+    // 可选（4.0版本新增）：用于控制字符串加密后在字节码中的存在形式, 默认为base64，
+    // 也可以使用text或者bytes
+    mode base64
+}
+
+android {
+    namespace 'com.pbicv.ddpx'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.pbicv.ddpx"
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+    }
+    // 自动化打包配置
+    signingConfigs {
+        // TODO 上线 修改jks测试环境
+        debug {
+            v2SigningEnabled true
+            v1SigningEnabled true
+            storeFile file('../buildsystem/pbicvddpx.jks')
+            storePassword "476228"
+            keyAlias "Pbicvddpx"
+            keyPassword "476228"
+        }
+
+        // 线上环境
+        release {
+            v2SigningEnabled true
+            v1SigningEnabled true
+            storeFile file('../buildsystem/pbicvddpx.jks')
+            storePassword "476228"
+            keyAlias "Pbicvddpx"
+            keyPassword "476228"
+        }
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        release {
+            //在这里添加：
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            dexOptions {
+                incremental true
+                javaMaxHeapSize "4g"
+            }
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+    androidJunkCode {
+        def config = {
+            packageBase = "com.pbicv.ddpx.ui" // 包名
+            packageCount = 50 // 包中生成的文件夹数量
+            activityCountPerPackage = 15 // 每个包中 activity 的数量
+            excludeActivityJavaFile = false
+            otherCountPerPackage = 50 // 每个包中生成的其他文件数量
+            methodCountPerClass = 20 // 每个 class 中生成方法数
+            resPrefix = "com_pbicv_ddpx" // res 的相关前缀
+            drawableCount = 200 // drawable 数量
+            stringCount = 200 // string 数量
+        }
+        variantConfig {
+            debug config
+            release config
+        }
+    }
+}
+
+dependencies {
+    implementation 'com.airbnb.android:lottie:4.2.0'
+
+    implementation 'com.wang.avi:library:2.1.3'
+    implementation 'io.github.youth5201314:banner:2.2.2'
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+
+    //retrofit
+    implementation "com.squareup.retrofit2:adapter-rxjava3:2.9.0"
+    implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+
+    //RxJava的依赖包
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.0'
+
+    //rxlifecycle
+    implementation 'com.trello.rxlifecycle4:rxlifecycle:4.0.2'
+    // If you want to bind to Android-specific lifecycles
+    implementation 'com.trello.rxlifecycle4:rxlifecycle-android:4.0.2'
+    // If you want pre-written Activities and Fragments you can subclass as providers
+    implementation 'com.trello.rxlifecycle4:rxlifecycle-components:4.0.2'
+
+    //utilcode
+    implementation 'com.blankj:utilcodex:1.31.1'
+    //multidex
+    implementation 'androidx.multidex:multidex:2.0.1'
+
+    //facebook
+//    implementation 'com.facebook.android:facebook-android-sdk:latest.release'
+    //google
+    implementation 'com.google.android.gms:play-services-auth:20.4.1'
+    implementation 'com.google.api-client:google-api-client:1.31.0'
+    implementation 'com.google.api-client:google-api-client-android:1.31.0'
+    implementation 'com.google.apis:google-api-services-people:v1-rev20201117-1.31.0'
+
+    //firebase
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    //Google Analytics
+    implementation 'com.google.firebase:firebase-analytics'
+    //cachewebview
+    implementation 'ren.yale.android:cachewebviewlib:2.2.1'
+    //branch
+//    implementation 'io.branch.sdk.android:library:5.+'
+    // required if your app is in the Google Play Store (tip: avoid using bundled play services libs)
+    implementation 'com.google.android.gms:play-services-ads-identifier:17.1.0+'
+    //appsflyer
+    implementation 'com.appsflyer:af-android-sdk:6.9.0'
+    //引荐来源，帮助归因
+    implementation "com.android.installreferrer:installreferrer:2.2"
+    //agentweb
+    implementation 'com.github.Justson.AgentWeb:agentweb-core:v5.0.6-androidx' // (必选)
+    //firebase
+    implementation 'com.google.firebase:firebase-auth:21.0.3'
+    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+
+    implementation 'com.github.ybq:Android-SpinKit:1.4.0'
+    // 这里要和上面选用的加解密算法库一致，用于运行时解密。
+    implementation 'com.github.megatronking.stringfog:xor:4.0.1'
+
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+}

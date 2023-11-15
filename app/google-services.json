@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "989928353414",
+    "project_id": "meron-airplane-war",
+    "storage_bucket": "meron-airplane-war.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:989928353414:android:9a27c8b8ed867ed83eeb07",
+        "android_client_info": {
+          "package_name": "com.pbicv.ddpx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "989928353414-j7ai2ng7tfi1ud6o0flud5sp0vd4r14p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTQAy1iXoO6Su_mTjgipznr4BbmJtnmUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "989928353414-j7ai2ng7tfi1ud6o0flud5sp0vd4r14p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

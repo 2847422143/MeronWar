@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cl_full_Loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/bg_logo_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg" />
+
+    <ImageView
+        android:id="@+id/iv_logo"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.3"
+        android:src="@mipmap/icon"
+
+        />
+
+
+    <ImageView
+        android:id="@+id/iv_loading"
+        android:layout_width="50dp"
+        android:layout_height="15dp"
+        android:scaleType="fitXY"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fullProgressBar"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="5dp"
+
+        android:visibility="gone"
+        />
+
+    <TextSwitcher
+        android:id="@+id/ts_loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/fullProgressBar"
+        android:layout_marginBottom="5dp"
+        android:foregroundGravity="center"
+        >
+    </TextSwitcher>
+
+    <!--    <com.github.ybq.android.spinkit.SpinKitView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/spin_kit"
+            style="@style/SpinKitView.ThreeBounce"
+            android:layout_width="30dp"
+            android:layout_height="10dp"
+            android:layout_gravity="left"
+            app:SpinKit_Color="@color/white"
+            android:visibility="visible"
+
+            app:layout_constraintTop_toTopOf="@id/ts_loading"
+            app:layout_constraintBottom_toBottomOf="@id/ts_loading"
+            app:layout_constraintLeft_toRightOf="@id/ts_loading"
+            />-->
+
+    <ProgressBar
+        android:id="@+id/fullProgressBar"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="7dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="80dp"
+        android:layout_marginEnd="80dp"
+
+        android:max="340"
+        android:progressDrawable="@drawable/prograss_bg"
+        android:visibility="gone"
+        app:layout_constraintVertical_bias="0.73"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

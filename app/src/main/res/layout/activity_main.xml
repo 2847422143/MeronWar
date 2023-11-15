@@ -1,0 +1,60 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="com.pbicv.ddpx.MainActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:src="@drawable/img"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:text="Airplane war"
+        android:textColor="@color/design_default_color_on_secondary"
+        android:textSize="70dp"
+        android:textStyle="italic" />
+    <TextView
+        android:id="@+id/marquee_text"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:singleLine="true"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:scrollHorizontally="true"
+        android:text="     Welcome to the world of airplane battles!
+        In this exciting game,you will become a top pilot, pilot a powerful fighter plane, and engage in thrilling aerial battles.
+        You will face countless enemy planes and powerful BOSS.
+        You need to show your flying skills and strategic wisdom to win in the fierce battle."
+        android:textColor="#de857c"
+        android:textSize="28sp" />
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/alottie"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        app:lottie_rawRes="@raw/first" />
+
+    <Button android:id="@+id/btnGame"
+        android:layout_width="200dp"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Start the game"
+        android:textSize="15dp"
+        android:textAllCaps="false"
+        android:onClick="onClick" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>
